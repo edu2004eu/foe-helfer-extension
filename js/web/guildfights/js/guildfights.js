@@ -2147,18 +2147,18 @@ let ProvinceMap = {
 
 		return (
 			(e.cp1x = s.num),
-			(s = ProvinceMap.ParseNumber(s.index, n)),
-			(e.cp1y = s.num),
-			(s = ProvinceMap.ParseNumber(s.index, n)),
-			(e.cp2x = s.num),
-			(s = ProvinceMap.ParseNumber(s.index, n)),
-			(e.cp2y = s.num),
-			(s = ProvinceMap.ParseNumber(s.index, n)),
-			(e.x = s.num),
-			(s = ProvinceMap.ParseNumber(s.index, n)),
-			(e.y = s.num),
-			(e.index = s.index),
-			e
+				(s = ProvinceMap.ParseNumber(s.index, n)),
+				(e.cp1y = s.num),
+				(s = ProvinceMap.ParseNumber(s.index, n)),
+				(e.cp2x = s.num),
+				(s = ProvinceMap.ParseNumber(s.index, n)),
+				(e.cp2y = s.num),
+				(s = ProvinceMap.ParseNumber(s.index, n)),
+				(e.x = s.num),
+				(s = ProvinceMap.ParseNumber(s.index, n)),
+				(e.y = s.num),
+				(e.index = s.index),
+				e
 		);
 	},
 
@@ -2194,7 +2194,7 @@ let ProvinceMap = {
 	},
 
 
-		ProvinceData: () => {
+	ProvinceData: () => {
 		if (GildFights.MapData.map['id'] === "volcano_archipelago") {
 			return [{
 				id: 0,
