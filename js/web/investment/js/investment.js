@@ -1,6 +1,6 @@
 /*
  * **************************************************************************************
- * Copyright (C) 2021 FoE-Helper team - All Rights Reserved
+ * Copyright (C) 2022 FoE-Helper team - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the AGPL license.
  *
@@ -487,7 +487,7 @@ let Investment = {
 			if (LGData.hasOwnProperty(i))
 			{
 				let PlayerID = LGData[i]['player']['player_id'];
-
+				if (PlayerID === ExtPlayerID) continue;
 				// if update started from Player GB Overview
 				// get all available investment from Storage to check if already leveled
 				if (!FullSync && playerSyncGbKeys === null) {
@@ -572,7 +572,7 @@ let Investment = {
 					allGB = Investment.remove_key_from_array(allGB, CurrentGB.id);
 				}
 
-				if (CurrentGB !== undefined && !FullSync)
+				if (CurrentGB !== undefined && !FullSync && playerSyncGbKeys !== null)
 				{
 					playerSyncGbKeys = Investment.remove_key_from_array(playerSyncGbKeys, CurrentGB.id);
 				}
@@ -625,7 +625,7 @@ let Investment = {
 		}
 
 		// Delete leveled GBs from GB Player Overview
-		if (!FullSync && playerSyncGbKeys.length >= 1) {
+		if (!FullSync && playerSyncGbKeys !== null && playerSyncGbKeys.length >= 1) {
 			UpdatedList=true;
 			await IndexDB.db.investhistory.where('id').anyOf(playerSyncGbKeys).delete();
 		}

@@ -1,6 +1,6 @@
 /*
  * **************************************************************************************
- * Copyright (C) 2021 FoE-Helper team - All Rights Reserved
+ * Copyright (C) 2022 FoE-Helper team - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the AGPL license.
  *
@@ -397,30 +397,32 @@ GetFights = () =>{
 	FoEproxy.addHandler('BattlefieldService', 'startByBattleType', (data, postData) => {
 
 		// Kampf beendet
-		if (data.responseData["error_code"] == 901) {
+		if (data.responseData["error_code"] === 901) {
 			return;
 		}
-		if (data.responseData["armyId"] == 1 || data.responseData["state"]["round"] == 1 || data.responseData["battleType"]["totalWaves"] == 1) {
+		if (data.responseData["armyId"] === 1 || data.responseData["state"]["round"] === 1 || data.responseData["battleType"]["totalWaves"] === 1) {
 			let units = data.responseData.state.unitsOrder;
+
 			for (let i = 0; i < units.length; i++) {
 				const unit = units[i];
-				if (unit.teamFlag == 1 && data.responseData["battleType"]["totalWaves"] == 1) {
+				if (unit.teamFlag === 1 && data.responseData["battleType"]["totalWaves"] === 1) {
 					OwnUnits.push({ "unitTypeId": unit.unitTypeId, "startHitpoints": unit.startHitpoints, "bonuses": unit.bonuses, "abilities": unit.abilities });
-				} else if (unit.teamFlag == 2) {
+				} else if (unit.teamFlag === 2) {
 					EnemyUnits.push({ "unitTypeId": unit.unitTypeId, "startHitpoints": unit.startHitpoints, "bonuses": unit.bonuses, "abilities": unit.abilities });
 				}
 			}
-			Fights.push({enemy:EnemyUnits, own:OwnUnits, won:(data.responseData["state"]["winnerBit"] == 1 ? true:false)});
+
+			Fights.push({enemy:EnemyUnits, own:OwnUnits, won:(data.responseData["state"]["winnerBit"] === 1)});
 			EnemyUnits = [];
 			OwnUnits = [];
 		}
-		else if(data.responseData["battleType"]["totalWaves"] == 2 && data.responseData["battleType"]["currentWaveId"] == null){
+		else if(data.responseData["battleType"]["totalWaves"] === 2 && data.responseData["battleType"]["currentWaveId"] == null){
 			let units = data.responseData.state.unitsOrder;
 			for (let i = 0; i < units.length; i++) {
 				const unit = units[i];
-				if (unit.teamFlag == 1) {
+				if (unit.teamFlag === 1) {
 					OwnUnits.push({ "unitTypeId": unit.unitTypeId, "startHitpoints": unit.startHitpoints, "bonuses": unit.bonuses, "abilities": unit.abilities });
-				} else if (unit.teamFlag == 2) {
+				} else if (unit.teamFlag === 2) {
 					EnemyUnits.push({ "unitTypeId": unit.unitTypeId, "startHitpoints": unit.startHitpoints, "bonuses": unit.bonuses, "abilities": unit.abilities });
 				}
 			}
@@ -548,10 +550,6 @@ GetFights = () =>{
 				lgUpdateData.Rankings = Rankings;
 				lgUpdateData.Bonus = Bonus;
 				lgUpdateData.Era = Era;
-
-				if(lgUpdateData.Rankings && lgUpdateData.CityMapEntity){
-					if(!IsLevelScroll) MainParser.SendLGData(lgUpdateData);
-				}
 
 				lgUpdate();
 			}
@@ -742,7 +740,7 @@ let HelperBeta = {
 };
 
 /**
- * @type {{BuildingSelectionKits: null, StartUpType: null, SetArkBonus: MainParser.SetArkBonus, MetaIds: {}, setGoodsData: MainParser.setGoodsData, SaveBuildings: MainParser.SaveBuildings, Conversations: *[], UpdateCityMap: MainParser.UpdateCityMap, BuildingChains: null, UpdateInventory: MainParser.UpdateInventory, SelectedMenu: string, foeHelperBgApiHandler: ((function(({type: string}&Object)): Promise<{ok: true, data: *}|{ok: false, error: string}>)|null), CityEntities: null, GetPlayerLink: ((function(*=, *): (string|*))|*), ArkBonus: number, InnoCDN: string, Boosts: {}, obj2FormData: obj2FormData, UpdatePlayerDict: MainParser.UpdatePlayerDict, PlayerPortraits: null, Quests: null, i18n: null, ResizeFunctions: MainParser.ResizeFunctions, getAddedDateTime: (function(*=, *=): number), loadJSON: MainParser.loadJSON, ExportFile: MainParser.ExportFile, getCurrentDate: (function(): Date), activateDownload: boolean, Inventory: {}, compareTime: ((function(number, number): (string|boolean))|*), EmissaryService: null, setLanguage: MainParser.setLanguage, BoostMapper: Record<string, string>, SelfPlayer: MainParser.SelfPlayer, UnlockedAreas: null, CollectBoosts: MainParser.CollectBoosts, sendExtMessage: ((function(*): Promise<*|undefined>)|*), BoostSums: {supply_production: number, def_boost_attacker: number, coin_production: number, def_boost_defender: number, att_boost_attacker: number, att_boost_defender: number, happiness_amount: number}, ClearText: (function(*): *), VersionSpecificStartupCode: MainParser.VersionSpecificStartupCode, checkNextUpdate: (function(*=): string|boolean), Language: string, SendLGData: ((function(*): boolean)|*), UpdatePlayerDictCore: MainParser.UpdatePlayerDictCore, BonusService: null, setConversations: MainParser.setConversations, StartUp: MainParser.StartUp, CityMapData: {}, DebugMode: boolean, OtherPlayerCityMapData: {}, CityMapEraOutpostData: null, getCurrentDateTime: (function(): number), round: ((function(number): number)|*), savedFight: null, BuildingSets: null, CastleSystemLevels: null, loadFile: MainParser.loadFile, send2Server: MainParser.send2Server}}
+ * @type {{BuildingSelectionKits: null, StartUpType: null, SetArkBonus: MainParser.SetArkBonus, setGoodsData: MainParser.setGoodsData, SaveBuildings: MainParser.SaveBuildings, Conversations: *[], UpdateCityMap: MainParser.UpdateCityMap, BuildingChains: null, UpdateInventory: MainParser.UpdateInventory, SelectedMenu: string, foeHelperBgApiHandler: ((function(({type: string}&Object)): Promise<{ok: true, data: *}|{ok: false, error: string}>)|null), CityEntities: null, GetPlayerLink: ((function(*, *): (string|*))|*), ArkBonus: number, InnoCDN: string, Boosts: {}, obj2FormData: obj2FormData, UpdatePlayerDict: MainParser.UpdatePlayerDict, PlayerPortraits: *[], Quests: null, i18n: null, ResizeFunctions: MainParser.ResizeFunctions, getAddedDateTime: (function(*, *=): number), loadJSON: MainParser.loadJSON, ExportFile: MainParser.ExportFile, getCurrentDate: (function(): Date), activateDownload: boolean, Inventory: {}, compareTime: ((function(number, number): (string|boolean))|*), EmissaryService: null, setLanguage: MainParser.setLanguage, BoostMapper: Record<string, string>, SelfPlayer: MainParser.SelfPlayer, UnlockedAreas: null, CollectBoosts: MainParser.CollectBoosts, sendExtMessage: ((function(*): Promise<*|undefined>)|*), BoostSums: {supply_production: number, def_boost_attacker: number, coin_production: number, def_boost_defender: number, att_boost_attacker: number, att_boost_defender: number, happiness_amount: number}, ClearText: (function(*): *), VersionSpecificStartupCode: MainParser.VersionSpecificStartupCode, checkNextUpdate: (function(*): string|boolean), Language: string, SendLGData: ((function(*): boolean)|*), UpdatePlayerDictCore: MainParser.UpdatePlayerDictCore, GetBuildingLink: ((function(*, *): (string|*))|*), BonusService: null, setConversations: MainParser.setConversations, StartUp: MainParser.StartUp, CityMapData: {}, DebugMode: boolean, OtherPlayerCityMapData: {}, CityMapEraOutpostData: null, CastleSystemLevels: null, getCurrentDateTime: (function(): number), round: ((function(number): number)|*), savedFight: null, BuildingSets: null, loadFile: MainParser.loadFile, MetaIds: {}, send2Server: MainParser.send2Server, GetGuildLink: ((function(*, *): (string|*))|*)}}
  */
 let MainParser = {
 
@@ -821,7 +819,6 @@ let MainParser = {
 	},
 
 
-	/** @type {Record<string,string>} */
 	BoostMapper: {
 		'supplies_boost': ['supply_production'],
 		'happiness': ['happiness_amount'],
@@ -831,7 +828,6 @@ let MainParser = {
 		'att_def_boost_defender': ['att_boost_defender', 'def_boost_defender'],
 		'advanced_tactics': ['att_boost_attacker', 'def_boost_attacker', 'att_boost_defender', 'def_boost_defender'],
 		'money_boost': ['coin_production'],
-		
 	},
 
 
@@ -1133,31 +1129,6 @@ let MainParser = {
 
 
 	/**
-	 * Collect some stats
-	 *
-	 * @param d
-	 * @returns {boolean}
-	 * @constructor
-	 */
-	SendLGData: (d)=> {
-
-		const dataEntity = d['CityMapEntity']['responseData'][0],
-			realData = {
-				entity: dataEntity,
-				ranking: d['Rankings'],
-				bonus: d['Bonus'],
-				era: d['Era'],
-			}
-
-		MainParser.sendExtMessage({
-			type: 'send2Api',
-			url: `${ApiURL}OwnLGData/?world=${ExtWorld}${MainParser.DebugMode ? '&debug' : ''}&v=${extVersion}`,
-			data: JSON.stringify(realData)
-		});
-	},
-
-
-	/**
 	 * Back up player data
 	 *
 	 * @param d
@@ -1282,15 +1253,6 @@ let MainParser = {
 					}
 				}
 			}
-		}
-
-		if (lgs.length > 0) {
-			// ab zum Server
-			MainParser.sendExtMessage({
-				type: 'send2Api',
-				url: ApiURL + 'SelfPlayerLGs/?player_id=' + ExtPlayerID + '&guild_id=' + ExtGuildID + '&world=' + ExtWorld,
-				data: JSON.stringify(lgs)
-			});
 		}
 	},
 
@@ -1490,11 +1452,12 @@ let MainParser = {
 	 * Collect titles of the chats
 	 *
 	 * @param d
+	 * @param refresh
 	 */
-	setConversations: (d) => {
+	setConversations: (d, refresh = false) => {
 
 		// If the cache is empty, read out the memory.
-		if (MainParser.Conversations.length === 0)
+		if (MainParser.Conversations.length === 0 && !refresh)
 		{
 			let StorageHeader = localStorage.getItem('ConversationsHeaders');
 			if (StorageHeader !== null) {

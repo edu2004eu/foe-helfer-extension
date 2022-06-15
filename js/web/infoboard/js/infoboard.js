@@ -1,6 +1,6 @@
 /*
  * **************************************************************************************
- * Copyright (C) 2021 FoE-Helper team - All Rights Reserved
+ * Copyright (C) 2022 FoE-Helper team - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the AGPL license.
  *
@@ -13,7 +13,7 @@
 
 // neues Postfach
 FoEproxy.addHandler('ConversationService', 'getOverviewForCategory', (data, postData) => {
-    MainParser.setConversations(data.responseData);
+    MainParser.setConversations(data.responseData, true);
 });
 
 FoEproxy.addHandler('ConversationService', 'getCategory', (data, postData) => {
